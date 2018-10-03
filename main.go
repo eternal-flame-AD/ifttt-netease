@@ -81,6 +81,7 @@ func main() {
 
 	key := flag.String("key", "", "IFTTT Service key")
 	debug := flag.Bool("debug", false, "debug")
+	flag.Parse()
 
 	service := ifttt.Service{
 		ServiceKey: *key,

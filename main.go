@@ -13,9 +13,14 @@ import (
 
 var idRegexp = regexp.MustCompile(`^\d+$`)
 
-type NewSongTrigger struct{}
+type NewSongTrigger struct {
+	key string
+}
 
 func (c NewSongTrigger) Poll(req *ifttt.TriggerPollRequest, r *ifttt.Request) (ifttt.TriggerEventCollection, error) {
+	if c.key != r.UserAccessToken {
+		return nil, ifttt.ErrorInvalidToken
+	}
 	if id, ok := req.TriggerFields["id"]; !ok {
 		return nil, errors.New("Missing ID")
 	} else if !idRegexp.MatchString(id) {
@@ -88,7 +93,7 @@ func main() {
 		service.EnableDebug()
 	}
 
-	new_song := NewSongTrigger{}
+	new_song := NewSongTrigger{*key}
 
 	service.RegisterTrigger("new_song", new_song)
 

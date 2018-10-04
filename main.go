@@ -35,7 +35,7 @@ func (c NewSongTrigger) Poll(req *ifttt.TriggerPollRequest, r *ifttt.Request) (i
 		now := time.Now().Unix()
 		for index, song := range list {
 			res = append(res, ifttt.TriggerEvent{
-				Slugs: map[string]string{
+				Ingredients: map[string]string{
 					"url":  song.URL(),
 					"name": song.Name,
 				},
